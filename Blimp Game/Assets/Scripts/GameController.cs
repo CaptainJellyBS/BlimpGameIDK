@@ -4,8 +4,16 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    public static GameController Instance { get; private set; }
     public Camera thirdperson, firstPerson;
+    public float airPressureForce;
     bool inThirdPerson;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,5 +31,10 @@ public class GameController : MonoBehaviour
         thirdperson.enabled = !inThirdPerson;
         firstPerson.enabled = inThirdPerson;
         inThirdPerson = thirdperson.enabled;
+    }
+
+    public Vector3 GetAirPressureForce(Transform obj)
+    {
+        return Vector3.down * airPressureForce * obj.position.y;
     }
 }
