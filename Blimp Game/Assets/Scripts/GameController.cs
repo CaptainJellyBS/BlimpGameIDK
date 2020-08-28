@@ -6,8 +6,8 @@ public class GameController : MonoBehaviour
 {
     public static GameController Instance { get; private set; }
     public Camera thirdperson, firstPerson;
+    public Turret frontTurret, rearTurret;
     public float airPressureForce;
-    bool inThirdPerson;
 
     private void Awake()
     {
@@ -17,21 +17,51 @@ public class GameController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        inThirdPerson = thirdperson.enabled;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.V)) { SwitchCameras(); }
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            FirstPersonMode();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            ThirdPersonMode();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            FrontTurretMode();
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            RearTurretMode();
+        }
     }
 
-    void SwitchCameras()
+    #region camera switching
+    public void FirstPersonMode()
     {
-        thirdperson.enabled = !inThirdPerson;
-        firstPerson.enabled = inThirdPerson;
-        inThirdPerson = thirdperson.enabled;
+        thirdperson.enabled = false; frontTurret.enabled = false; rearTurret.enabled = false; firstPerson.enabled = true;
     }
+
+    public void ThirdPersonMode()
+    {
+        thirdperson.enabled = true; frontTurret.enabled = false; rearTurret.enabled = false; firstPerson.enabled = false;
+    }
+
+    public void FrontTurretMode()
+    {
+        thirdperson.enabled = false; frontTurret.enabled = true; rearTurret.enabled = false; firstPerson.enabled = false;
+    }
+
+    public void RearTurretMode()
+    {
+        thirdperson.enabled = false; frontTurret.enabled = false; rearTurret.enabled = true; firstPerson.enabled = false;
+    }
+    #endregion
 
     public Vector3 GetAirPressureForce(Transform obj)
     {
