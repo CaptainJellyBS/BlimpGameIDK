@@ -10,6 +10,7 @@ public class Blimp : MonoBehaviour
     public float propRotSpeed;
     public float blimpRotSpeed, blimpMoveSpeed;
     public float maxHeight;
+    public InstrumentKnob forwardSpeedIndicator, verticalSpeedIndicator, rotationIndicator;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +22,7 @@ public class Blimp : MonoBehaviour
     {
         RotatePropellors();
         ControlBlimp();
+        CalculateInstruments();
     }
 
     void RotatePropellors()
@@ -37,6 +39,13 @@ public class Blimp : MonoBehaviour
         rb.AddForce(GameController.Instance.GetAirPressureForce(transform));
         rb.AddForce(Vector3.up * GameController.Instance.airPressureForce * oxygenPercentage * maxHeight);
     }
+
+    void CalculateInstruments()
+    {
+        forwardSpeedIndicator.SetValue((leftPropSpeed + rightPropSpeed) / 2);
+        verticalSpeedIndicator.SetValue(rb.velocity.y);
+        rotationIndicator.SetValue((leftPropSpeed - rightPropSpeed)/1.5f);
+    }    
 
     public void SetLeftPropellor(float strength)
     {
