@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Blimp : MonoBehaviour
 {
-    float leftPropSpeed, rightPropSpeed, oxygenPercentage;
+    float leftPropSpeed = 0, rightPropSpeed = 0, oxygenPercentage = 1;
     public GameObject leftPropellor, rightPropellor;
     Rigidbody rb;
     public float propRotSpeed;
@@ -37,12 +37,12 @@ public class Blimp : MonoBehaviour
         rb.AddForce(transform.forward * ((leftPropSpeed + rightPropSpeed) * blimpMoveSpeed));
 
         rb.AddForce(GameController.Instance.GetAirPressureForce(transform));
-        rb.AddForce(Vector3.up * GameController.Instance.airPressureForce * oxygenPercentage * maxHeight);
+        rb.AddForce(Vector3.up * GameController.Instance.airPressureForce * (1-oxygenPercentage) * maxHeight);
     }
 
     void CalculateInstruments()
     {
-        forwardSpeedIndicator.SetValue((leftPropSpeed + rightPropSpeed) / 2);
+        forwardSpeedIndicator.SetValue((rb.velocity.z) / 2);
         verticalSpeedIndicator.SetValue(rb.velocity.y);
         rotationIndicator.SetValue((leftPropSpeed - rightPropSpeed)/1.5f);
     }    
