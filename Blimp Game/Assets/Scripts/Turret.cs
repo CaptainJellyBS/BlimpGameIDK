@@ -67,6 +67,7 @@ public class Turret : MonoBehaviour
         c = GetComponentInChildren<Camera>(true);
 
         Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         c.enabled = true;
 
         StartCoroutine(Shooting());
@@ -77,6 +78,7 @@ public class Turret : MonoBehaviour
         c = GetComponentInChildren<Camera>(true);
 
         Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         c.enabled = false;
     }
 
@@ -103,6 +105,7 @@ public class Turret : MonoBehaviour
         {
             if(Input.GetMouseButton(0))
             {
+                GameController.Instance.hasShotTurret = true;
                 Shoot(barrel);
                 barrel++; barrel %= 2;
                 yield return new WaitForSeconds(fireRate);
